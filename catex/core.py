@@ -1,3 +1,10 @@
+# TODO Add cli
+# TODO unit test
+# TODO add continuous integration
+# TODO add documentation
+# TODO add setup.py for pip
+
+
 def uniq(lst):
     last = object()
     for item in lst:
@@ -28,7 +35,7 @@ class LaTeX:
         f = open(filename, 'r')
         self.lines = [line.replace('\n', '').strip() for line in f]
 
-        first_line_content =
+        first_line_content = 1
         for first_line_content, l in enumerate(self.lines):
             if '\\begin{document}' in l:
                 break
@@ -54,15 +61,16 @@ class LaTeX:
             self.packages.append([pkg, parse_options(l)])
             self.packages = sort_and_deduplicate(self.packages)
 
-        # Was really supposed to be indented once more.
+        # Was really supposed to be indented once more?
         self.preamble_nopkg = [l for l in self.preamble if '\\usepackage' not in l]
 
     def reconstruct_pkg(self):
-        for i, l in enumerate(self.preamble_nopkg):
+        document_class_line = 0
+        for document_class_line, l in enumerate(self.preamble_nopkg):
             if l.startswith('\\documentclass'):
                 break
-        prefix = self.preamble_nopkg[:i + 1]
-        suffix = self.preamble_nopkg[i + 1:]
+        prefix = self.preamble_nopkg[:document_class_line + 1]
+        suffix = self.preamble_nopkg[document_class_line + 1:]
 
         pkglist = []
         for pkg, opt in self.packages:
@@ -73,6 +81,7 @@ class LaTeX:
     def reconstruct_doc(self):
         return (self.reconstruct_pkg() + '\n' + '\n'.join(self.contents)).replace('\n\n\n', '\n')
 
+    # TODO add operator overloading +
     def merge(self, f2):
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
