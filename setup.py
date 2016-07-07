@@ -19,7 +19,7 @@ setup(
 
     version=read_version(),
 
-    description='CaTeX Concatenates LateX documents.',
+    description='Concatenates LateX documents.',
     long_description=long_description,
 
     # The project's main homepage.d
@@ -36,8 +36,6 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
 
-        'Intended Audience :: Developers',
-
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -45,6 +43,11 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Printing',
+        'Topic :: Text Processing :: General',
+        'Topic :: Text Processing :: Markup :: LaTeX',
     ],
 
     # What does your project relate to?
