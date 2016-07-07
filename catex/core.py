@@ -32,10 +32,10 @@ def parse_options(l):
 
 
 class LaTeX:
-    def __init__(self, filename):
-        f = open(filename, 'r')
-        self.lines = [line.replace('\n', '').strip() for line in f]
-
+    def __init__(self, lines=None):
+        if lines is None:
+            return
+        self.lines = lines
         first_line_content = 1
         for first_line_content, l in enumerate(self.lines):
             if '\\begin{document}' in l:
@@ -65,6 +65,12 @@ class LaTeX:
         # Was really supposed to be indented once more?
         self.preamble_nopkg = [l for l in self.preamble if '\\usepackage' not in l]
 
+    @staticmethod
+    def from_file(filename):
+        f = open(filename, 'r')
+        lines = [line.replace('\n', '').strip() for line in f]
+        return LaTeX(lines)
+
     def reconstruct_pkg(self):
         document_class_line = 0
         for document_class_line, l in enumerate(self.preamble_nopkg):
@@ -83,16 +89,17 @@ class LaTeX:
         return (self.reconstruct_pkg() + '\n' + '\n'.join(self.contents)).replace('\n\n\n', '\n')
 
     def merge(self, f2):
+        out = LaTeX()
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
         f2.preamble_nopkg = f2.preamble_nopkg[1:]
 
         # Remove begin/end doc
-        self.contents = self.contents[1:-1]
+        out.contents = self.contents[1:-1]
         f2.contents = f2.contents[1:-1]
 
         # Merge contents
-        self.contents = self.contents + f2.contents
+        merged_contents = self.contents + f2.contents
 
         # Merge packages
         newpackages = []
@@ -103,10 +110,14 @@ class LaTeX:
                 newpackages.append([pkg, sort_and_deduplicate(self.packages[pkgi][1] + opt)])
             else:
                 newpackages.append([pkg, list(set(opt))])
-        self.packages = newpackages[:]
+        out.packages = newpackages[:]
 
-        self.preamble_nopkg = [doc_class] + self.preamble_nopkg
-        self.contents = ['\\begin{document}'] + self.contents + ['\\end{document}']
+        out.preamble_nopkg = [doc_class] + self.preamble_nopkg
+        out.contents = ['\\begin{document}'] + merged_contents + ['\\end{document}']
+        return out
 
     def __add__(self, other):
         return self.merge(other)
+
+    def __repr__(self):
+        return '\n'.join(self.contents)
