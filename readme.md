@@ -22,7 +22,7 @@ will be displayed in std_out.
 
 ## Test
 
-Run `py.test`.
+Run `$ py.test tests`.
 
 ## Contribute
 
