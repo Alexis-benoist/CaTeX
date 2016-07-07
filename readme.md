@@ -15,7 +15,7 @@ Done!
 
 To concatenate `first_doc.tex` and `second_doc.tex`, just run:
 
-    $ catex -i first_doc.tex second_doc.tex -o output.tex
+    $ catex -i first_doc.tex -i second_doc.tex -o output.tex
 
 If no output file is selected then the output
 will be displayed in std_out.
