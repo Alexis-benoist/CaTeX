@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-# TODO Add cli
 # TODO unit test
 # TODO add continuous integration
 # TODO add documentation
-# TODO add setup.py for pip
 
 
 def uniq(lst):
