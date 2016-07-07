@@ -1,7 +1,7 @@
 
 # CaTeX
 
-`TLDR`: CaTeX is a simple tool to concatenete LateX documents.
+`TLDR`: `CaTeX` `C`oncatenates L`ateX` documents.
 
 ## Install
 

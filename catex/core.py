@@ -121,3 +121,18 @@ class LaTeX:
 
     def __repr__(self):
         return '\n'.join(self.contents)
+
+
+def merge(*files):
+    """
+    Merges all the files to a single LaTeX object.
+    :param files:
+    :return:
+    """
+    if len(files) < 2:
+        raise ValueError('More than two files are needed.')
+
+    rv = LaTeX.from_file(files[0])
+    for file_name in files[1:]:
+        rv += LaTeX.from_file(file_name)
+    return rv
