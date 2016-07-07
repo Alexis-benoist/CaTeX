@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # TODO Add cli
 # TODO unit test
 # TODO add continuous integration
@@ -81,7 +82,6 @@ class LaTeX:
     def reconstruct_doc(self):
         return (self.reconstruct_pkg() + '\n' + '\n'.join(self.contents)).replace('\n\n\n', '\n')
 
-    # TODO add operator overloading +
     def merge(self, f2):
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
@@ -107,3 +107,6 @@ class LaTeX:
 
         self.preamble_nopkg = [doc_class] + self.preamble_nopkg
         self.contents = ['\\begin{document}'] + self.contents + ['\\end{document}']
+
+    def __add__(self, other):
+        return self.merge(other)
