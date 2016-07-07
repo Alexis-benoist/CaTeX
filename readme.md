@@ -1,7 +1,7 @@
 
 # CaTeX
 
-`TLDR`: `CaTeX` `C`oncatenates L`ateX` documents.
+`TLDR`: `CaTeX` `C`oncatenates L`aTeX` documents.
 
 ## Install
 
