@@ -26,6 +26,8 @@ def build_and_upload():
     rm('CaTeX.egg-info')
     rm('build')
     rm('dist')
+    Popen(['pandoc', '--from=markdown', '--to=rst', 'readme.md', '--output=readme.rst'],
+           stdout=PIPE).wait()
     Popen([sys.executable, 'setup.py', 'bdist_wheel', '--universal'], stdout=PIPE).wait()
     Popen([sys.executable, 'setup.py', 'sdist'], stdout=PIPE).wait()
     pypi_pwd = getpass(prompt='Pypi Password: ')
