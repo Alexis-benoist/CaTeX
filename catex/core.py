@@ -107,12 +107,3 @@ class LaTeX:
 
         self.preamble_nopkg = [doc_class] + self.preamble_nopkg
         self.contents = ['\\begin{document}'] + self.contents + ['\\end{document}']
-
-
-def test():
-    f1 = LaTeX("latex1.tex")
-    f1.merge(f1)
-    print(f1.reconstruct_doc())
-
-if __name__ == '__main__':
-    test()
