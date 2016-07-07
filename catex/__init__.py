@@ -1,1 +1,1 @@
-from core import LaTeX
+from catex.core import LaTeX
