@@ -10,7 +10,7 @@ def cli(input, output):
     """ CaTeX concatenates LateX documents.
     """
     from core import merge
-    output.write(merge(*input))
+    output.write(merge(*input).__repr__())
 
 
 if __name__ == '__main__':

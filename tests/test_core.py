@@ -11,8 +11,12 @@ def test_import_():
 
 
 def test_latex_simple():
-    print('plop')
     from catex import LaTeX
     f1 = LaTeX.from_file("tests/data/latex1.tex")
 
     print f1.merge(f1)
+
+
+def test_merge():
+    from catex.core import merge
+    merge("tests/data/latex1.tex", "tests/data/latex2.tex")
