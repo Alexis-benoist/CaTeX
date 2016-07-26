@@ -29,6 +29,34 @@ def parse_options(l):
     return [o.strip() for o in l[options_start:options_end].split(',')]
 
 
+def make_package_list(preamble):
+    """
+    :param preamble: lst of str in the preamble.
+    :return: [
+        ['package_name1', [opt1, opt2,...]],
+        ....
+     ]
+    """
+    packages = []
+
+    for l in preamble:
+        if '\\usepackage' not in l:
+            continue
+
+        pkg_start = l.index('{') + 1
+        pkg_end = l.index('}')
+        pkg = l[pkg_start:pkg_end]
+
+        if ',' in pkg:
+            for pkgl in pkg.split(','):
+                # Not possible that a pkg has options in that case?
+                packages.append([pkgl.strip(), []])
+            continue
+
+        packages.append([pkg, parse_options(l)])
+        packages = sort_and_deduplicate(packages)
+    return packages
+
 class LaTeX:
     def __init__(self, lines=None):
         if lines is None:
@@ -41,25 +69,7 @@ class LaTeX:
 
         self.preamble = lines[:first_line_content - 1]
         self.contents = lines[first_line_content:]
-        self.packages = []
-
-        for l in self.preamble:
-            if '\\usepackage' not in l:
-                continue
-
-            pkg_start = l.index('{') + 1
-            pkg_end = l.index('}')
-            pkg = l[pkg_start:pkg_end]
-
-            if ',' in pkg:
-                for pkgl in pkg.split(','):
-                    # Not possible that a pkg has options in that case?
-                    self.packages.append([pkgl.strip(), []])
-                continue
-
-            self.packages.append([pkg, parse_options(l)])
-            self.packages = sort_and_deduplicate(self.packages)
-
+        self.packages = make_package_list(self.preamble)
         # Was really supposed to be indented once more?
         self.preamble_nopkg = [l for l in self.preamble if '\\usepackage' not in l]
 
