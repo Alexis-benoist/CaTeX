@@ -86,23 +86,19 @@ class LaTeX:
     def reconstruct_doc(self):
         return (self.reconstruct_pkg() + '\n' + '\n'.join(self.contents)).replace('\n\n\n', '\n')
 
-    def merge(self, f2):
+    def merge(self, other):
         out = LaTeX()
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
-        f2.preamble_nopkg = f2.preamble_nopkg[1:]
+        other.preamble_nopkg = other.preamble_nopkg[1:]
 
-        # Remove begin/end doc
-        out.contents = self.contents[1:-1]
-        f2.contents = f2.contents[1:-1]
-
-        # Merge contents
-        merged_contents = self.contents + f2.contents
+        # Slicing removes begin/end doc
+        merged_contents = self.contents[1:-1] + other.contents[1:-1]
 
         # Merge packages
         newpackages = []
         pkgl = [pkg for pkg, opt in self.packages]
-        for pkg, opt in f2.packages:
+        for pkg, opt in other.packages:
             if pkg in pkgl:
                 pkgi = pkgl.index(pkg)
                 newpackages.append([pkg, sort_and_deduplicate(self.packages[pkgi][1] + opt)])
