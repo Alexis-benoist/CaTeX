@@ -127,8 +127,20 @@ class LaTeX:
     def __add__(self, other):
         return self.merge(other)
 
+    def repr_pkg(self):
+        return '\n'.join(
+            '\usepackage[{}]{{}}'.format(', '.join(opts), pkg)
+            if opts != []
+            else '\usepackage{{}}'.format(pkg)
+            for pkg, opts in self.packages
+        )
+
     def __repr__(self):
-        return '\n'.join(self.contents)
+        return (
+            '\n'.join(self.preamble_nopkg) +
+            self.repr_pkg() +
+            '\n'.join(self.contents)
+           )
 
 
 def merge(*files):
