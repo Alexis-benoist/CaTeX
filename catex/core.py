@@ -57,6 +57,19 @@ def make_package_list(preamble):
         packages = sort_and_deduplicate(packages)
     return packages
 
+
+def merge_packages(pkg1, pkg2):
+    newpackages = []
+    pkgl = [pkg for pkg, opt in pkg1]
+    for pkg, opt in pkg2:
+        if pkg in pkgl:
+            pkgi = pkgl.index(pkg)
+            newpackages.append([pkg, sort_and_deduplicate(pkg1[pkgi][1] + opt)])
+        else:
+            newpackages.append([pkg, list(set(opt))])
+    return newpackages
+
+
 class LaTeX:
     def __init__(self, lines=None):
         if lines is None:
@@ -105,16 +118,7 @@ class LaTeX:
         # Slicing removes begin/end doc
         merged_contents = self.contents[1:-1] + other.contents[1:-1]
 
-        # Merge packages
-        newpackages = []
-        pkgl = [pkg for pkg, opt in self.packages]
-        for pkg, opt in other.packages:
-            if pkg in pkgl:
-                pkgi = pkgl.index(pkg)
-                newpackages.append([pkg, sort_and_deduplicate(self.packages[pkgi][1] + opt)])
-            else:
-                newpackages.append([pkg, list(set(opt))])
-        out.packages = newpackages[:]
+        out.packages = merge_packages(self.packages, other.packages)
 
         out.preamble_nopkg = [doc_class] + self.preamble_nopkg
         out.contents = ['\\begin{document}'] + merged_contents + ['\\end{document}']

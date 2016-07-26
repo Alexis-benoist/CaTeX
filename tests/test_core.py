@@ -19,3 +19,29 @@ def test_merge():
     from catex.core import merge
     rv = merge("tests/data/latex1.tex", "tests/data/latex2.tex")
     print
+    
+def test_merge_packeges():
+    from catex.core import merge_packages
+    pkg1 = [
+        ['th', ['mou', 'moi', 'mumu=tutu']],
+        ['blo', []],
+        ['bli', ['tut']],
+        ['bli', []],
+        ['bleh', []],
+        ['bla', []]]
+    pkg2 = [
+        ['th', ['mou', 'moi', 'mumu=tutu']],
+        ['blo', []],
+        ['bli', ['tut']],
+        ['bli', []],
+        ['bleh', []],
+        ['bla', []]
+    ]
+    pkg_rv = [
+        ['th', ['mumu=tutu', 'mou', 'moi']],
+        ['blo', []],
+        ['bli', ['tut']],
+        ['bli', ['tut']], ['bleh', []],
+        ['bla', []]
+    ]
+    assert merge_packages(pkg1, pkg2) == pkg_rv
