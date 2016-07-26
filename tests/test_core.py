@@ -17,4 +17,5 @@ def test_latex_simple():
 
 def test_merge():
     from catex.core import merge
-    merge("tests/data/latex1.tex", "tests/data/latex2.tex")
+    rv = merge("tests/data/latex1.tex", "tests/data/latex2.tex")
+    print

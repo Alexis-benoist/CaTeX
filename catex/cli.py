@@ -4,7 +4,9 @@ import click
 @click.command()
 @click.option('-i', '--input', multiple=True, type=click.Path(readable=True),
               help='Paths of the .tex to merge')
-@click.option('-o', '--output', default='-', type=click.File('wb'),
+@click.option('-i', '--input', multiple=True, type=click.Path(readable=True),
+              help='Paths of the .tex to merge')
+@click.option('-o', '--dependencies', default='-', type=click.Choice([]),
               help='Path for the output file (default is stdout)')
 def cli(input, output):
     """ CaTeX concatenates LateX documents.

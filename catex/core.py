@@ -33,14 +33,14 @@ class LaTeX:
     def __init__(self, lines=None):
         if lines is None:
             return
-        self.lines = lines
         first_line_content = 1
-        for first_line_content, l in enumerate(self.lines):
+        for first_line_content, l in enumerate(lines):
             if '\\begin{document}' in l:
                 break
+        self.first_line_content = first_line_content
 
-        self.preamble = self.lines[:first_line_content - 1]
-        self.contents = self.lines[first_line_content:]
+        self.preamble = lines[:first_line_content - 1]
+        self.contents = lines[first_line_content:]
         self.packages = []
 
         for l in self.preamble:
