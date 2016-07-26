@@ -129,9 +129,9 @@ class LaTeX:
 
     def repr_pkg(self):
         return '\n'.join(
-            '\usepackage[{}]{{}}'.format(', '.join(opts), pkg)
+            '\usepackage[{}]{{{}}}'.format(', '.join(opts), pkg)
             if opts != []
-            else '\usepackage{{}}'.format(pkg)
+            else '\usepackage{{{}}}'.format(pkg)
             for pkg, opts in self.packages
         )
 
