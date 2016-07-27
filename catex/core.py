@@ -137,19 +137,19 @@ class LaTeX:
         return self.merge(other)
 
     def repr_pkg(self):
-        return '\n'.join(
+        return [
             '\usepackage[{}]{{{}}}'.format(', '.join(opts), pkg)
             if opts != []
             else '\usepackage{{{}}}'.format(pkg)
             for pkg, opts in self.packages
-        )
+        ]
+
+    @property
+    def preamble(self):
+        return ''.join(self.preamble_nopkg + self.repr_pkg())
 
     def __repr__(self):
-        return (
-            '\n'.join(self.preamble_nopkg) +
-            self.repr_pkg() + '\n'
-            '\n'.join(self.contents)
-           )
+        return self.preamble + ''.join(self.contents)
 
 
 def merge(*files):

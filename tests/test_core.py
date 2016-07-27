@@ -46,3 +46,13 @@ def test_merge_packeges():
         ['bla', []]
     ]
     assert merge_packages(pkg1, pkg2) == pkg_rv
+
+
+def test_repr():
+    from catex.core import LaTeX
+    l = LaTeX.from_file("tests/data/latex1.tex")
+    with open("tests/data/latex1.tex", 'r') as f:
+        text = f.readlines()
+
+    assert l.__repr__() == ''.join(text)
+
