@@ -73,6 +73,19 @@ def merge_packages(pkg1, pkg2):
     return newpackages
 
 
+def dispatch_preamble(preamble):
+    document_class, preamble_nopkg, packages = [], [], []
+    for line in preamble:
+        if '\\usepackage' in line:
+            packages.append(line)
+        elif '\\document' in line:
+            document_class.append(line)
+        else:
+            preamble_nopkg.append(line)
+    assert len(document_class) == 1
+    return document_class, preamble_nopkg, make_package_list(packages)
+
+
 class LaTeX:
     def __init__(self, lines=None):
         """
@@ -96,9 +109,8 @@ class LaTeX:
 
         preamble = lines[:first_line_content]
         self.contents = lines[first_line_content:]
-        self.packages = make_package_list(preamble)
-        # Was really supposed to be indented once more?
-        self.preamble_nopkg = [l for l in preamble if '\\usepackage' not in l]
+        self.doc_class, self.preamble_nopkg, self.packages =\
+            dispatch_preamble(preamble)
 
     @staticmethod
     def from_file(filename):
@@ -126,10 +138,10 @@ class LaTeX:
     def merge(self, other):
         out = LaTeX()
         # Choose doc class
-        doc_class = self.preamble_nopkg[0]
+        out.doc_class = self.doc_class
         # TODO: why do we take the preamble nopkg from other?
         # TODO: This method creates a replication of the documentclass in the test.
-        out.preamble_nopkg = [doc_class] + other.preamble_nopkg[1:]
+        out.preamble_nopkg = other.preamble_nopkg[1:]
 
         # Slicing removes begin/end doc
         merged_contents = self.contents[1:-1] + other.contents[1:-1]
@@ -150,7 +162,7 @@ class LaTeX:
 
     @property
     def preamble(self):
-        return self.preamble_nopkg + self.repr_pkg()
+        return self.doc_class + self.preamble_nopkg + self.repr_pkg()
 
     def __repr__(self):
         return '\n'.join(self.preamble + self.contents)
