@@ -50,8 +50,8 @@ def test_merge_packeges():
 
 def test_repr():
     from catex.core import LaTeX
-    l = LaTeX.from_file("tests/data/latex1.tex")
-    with open("tests/data/latex1.tex", 'r') as f:
+    l = LaTeX.from_file("tests/data/latex_sorted.tex")
+    with open("tests/data/latex_sorted.tex", 'r') as f:
         text = f.readlines()
 
     assert l.__repr__() == ''.join(text)

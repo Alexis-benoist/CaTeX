@@ -146,10 +146,10 @@ class LaTeX:
 
     @property
     def preamble(self):
-        return ''.join(self.preamble_nopkg + self.repr_pkg())
+        return self.preamble_nopkg + self.repr_pkg()
 
     def __repr__(self):
-        return self.preamble + ''.join(self.contents)
+        return '\n'.join(self.preamble + self.contents)
 
 
 def merge(*files):
