@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# TODO unit test
-# TODO add continuous integration
-# TODO add documentation
 
 
 def uniq(lst):
@@ -72,6 +69,17 @@ def merge_packages(pkg1, pkg2):
 
 class LaTeX:
     def __init__(self, lines=None):
+        """
+        We model a LaTeX document as:
+         - a list of lines composed of:
+            * preamble:
+                - packages: list of packages.
+                - preamble_nopkg:
+            * content: the content of the document with
+            the `\\begin{document}` and `\\end{document}`.
+        :param lines:
+        :return:
+        """
         if lines is None:
             return
         first_line_content = 1
@@ -80,11 +88,11 @@ class LaTeX:
                 break
         self.first_line_content = first_line_content
 
-        self.preamble = lines[:first_line_content - 1]
+        preamble = lines[:first_line_content - 1]
         self.contents = lines[first_line_content:]
-        self.packages = make_package_list(self.preamble)
+        self.packages = make_package_list(preamble)
         # Was really supposed to be indented once more?
-        self.preamble_nopkg = [l for l in self.preamble if '\\usepackage' not in l]
+        self.preamble_nopkg = [l for l in preamble if '\\usepackage' not in l]
 
     @staticmethod
     def from_file(filename):
@@ -113,14 +121,15 @@ class LaTeX:
         out = LaTeX()
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
-        other.preamble_nopkg = other.preamble_nopkg[1:]
+        # TODO Sha: why do we take the preamble nopkg from other?
+        # TODO Sha: This method creates a replication of the documentclass in the test.
+        out.preamble_nopkg = [doc_class] + other.preamble_nopkg[1:]
 
         # Slicing removes begin/end doc
         merged_contents = self.contents[1:-1] + other.contents[1:-1]
 
         out.packages = merge_packages(self.packages, other.packages)
 
-        out.preamble_nopkg = [doc_class] + self.preamble_nopkg
         out.contents = ['\\begin{document}'] + merged_contents + ['\\end{document}']
         return out
 
@@ -138,7 +147,7 @@ class LaTeX:
     def __repr__(self):
         return (
             '\n'.join(self.preamble_nopkg) +
-            self.repr_pkg() +
+            self.repr_pkg() + '\n'
             '\n'.join(self.contents)
            )
 
@@ -154,5 +163,5 @@ def merge(*files):
 
     rv = LaTeX.from_file(files[0])
     for file_name in files[1:]:
-        rv += LaTeX.from_file(file_name)
+        rv = rv + LaTeX.from_file(file_name)
     return rv
