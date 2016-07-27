@@ -15,7 +15,7 @@ def cli(input, output):
 
 
 def _cli(input, output):
-    from core import merge
+    from catex.core import merge
     text = merge(*input).__repr__()
     if output[-4:] == '.pdf':
         from latex import build_pdf
