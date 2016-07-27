@@ -14,6 +14,12 @@ def sort_and_deduplicate(l):
     return list(uniq(sorted(l, reverse=True)))
 
 
+def repr_pkg(opts, pkg):
+    if opts != []:
+        return '\\usepackage[{0}]{{{1}}}'.format(', '.join(opts), pkg)
+    return '\\usepackage{{{0}}}'.format(pkg)
+
+
 def parse_options(l):
     """
     :param l: str
@@ -138,9 +144,7 @@ class LaTeX:
 
     def repr_pkg(self):
         return [
-            '\usepackage[{}]{{{}}}'.format(', '.join(opts), pkg)
-            if opts != []
-            else '\usepackage{{{}}}'.format(pkg)
+            repr_pkg(opts, pkg)
             for pkg, opts in self.packages
         ]
 
