@@ -88,7 +88,7 @@ class LaTeX:
                 break
         self.first_line_content = first_line_content
 
-        preamble = lines[:first_line_content - 1]
+        preamble = lines[:first_line_content]
         self.contents = lines[first_line_content:]
         self.packages = make_package_list(preamble)
         # Was really supposed to be indented once more?
