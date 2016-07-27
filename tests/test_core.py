@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from click import open_file
 
 
 def read_file(path):
-    with open(path, 'r') as f:
+    with open_file(path, 'r', encoding='utf8') as f:
         return ''.join(f.readlines())
 
 

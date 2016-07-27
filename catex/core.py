@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from click import open_file
 
 def uniq(lst):
     last = object()
@@ -117,7 +117,7 @@ class LaTeX:
 
     @staticmethod
     def from_file(filename):
-        f = open(filename, 'r')
+        f = open_file(filename, 'r', encoding='utf8')
         lines = [line.replace('\n', '').strip() for line in f]
         return LaTeX(lines)
 
