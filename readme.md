@@ -1,4 +1,3 @@
-
 # CaTeX
 
 `TLDR`: `CaTeX` `C`oncatenates L`aTeX` documents.
@@ -28,5 +27,7 @@ Run `$ py.test tests`.
 
 You can use Github's issues to provide feedback and
 report bugs.
+
+This is the alpha version.
 
 Tested pull requests are welcome.
