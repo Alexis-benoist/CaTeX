@@ -1,17 +1,79 @@
-\documentclass{article}
-\usepackage[mumu=tutu, mumu=tuto, mou, moi]{th}
-\usepackage{blo}
-\usepackage[tut, antittut=blu, antitot]{bli}
-\usepackage[tut]{bli}
-\usepackage{bleh}
-\usepackage{bla}
+\documentclass[a4paper,11pt]{article}
+\author{Kévin JASON}        %% idem
+
+\makeindex		    %% macro qui permet de générer l'index
+\bibliographystyle{prsty}	  %% le style utilisé pour créer la bibliographie
+\usepackage{makeidx}
+\usepackage[latin1]{inputenc}
+\usepackage[dvips]{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{fancybox}
 \begin{document}
+\maketitle
+\tableofcontents
+\section{D\’ebut}
+\‘A \’ecrire\dots
+\section{Suite et fin}
+On verra plus tard.
 
-\section{Tut tut}
-aaa
+\maketitle                        %% produire à cet endroit le titre de l'article à partir des informations fournies ci-dessus (title, author)
+\newpage
+\tableofcontents                  %% produire à cet endroit la table des matièree
+\newpage
+\section{Exemple de fonction mathématique}            %% un titre de niveau 1 qui sera inclus dans la table des matières
+Quelle que soit la valeur de $x$,
+la propriété suivante est toujours
+vérifiée: $$\sin^2 x+\cos^2 x=1$$
+On peut s'en douter en observant
+le tracé de la fonction illustrée
+dans la figure~\ref{courbe}
+à la page~\pageref{courbe}.
+\index{fonction}                  %% inclure le mot fonction dans l'index
+\newpage
+\subsection{Un premier exemple d'image}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{courbe.eps}
+\caption{Cette figure illustre
+le tracé de la fonction
+$f(x)\equiv\sin^2 x+\cos^2 x=1$.}
+\label{courbe}
+\index{tracé}                     %% inclure le mot tracé dans l'index
+\index{fonction}                  %% include le mot fonction dans l'index
+\end{figure}
+\newpage
+\subsection{Un deuxième exemple d'image}
+\begin{figure}[htbp]
+\centering
+\shadowbox{ \begin{minipage}{10cm}
+\centering
+\includegraphics[height=4cm]{courbe.eps}
+\caption{\footnotesize courbe.eps}
+\end{minipage} }
+\end{figure}
 
+\section{Un exemple avec référence bibliographique}
+The discovery of the Quantized Hall Effect\footnote{je sais pas ce que c'est!} was made by
+Klitzing~\cite{qhe} for which he was awarded the 1985 Nobel
+prize for physics~\cite{nobel}.
 
-\section{Tat tut}
-bbb
+\section{Un exemple de tableau}
+\begin{tabular}{|*{2}{c|}l r|}
+\hline
+une & deux & trois & quatre \\
+case centrée & encore centrée & à gauche & à droite \\
+\hline
+six & sept & huit & neuf \\
+\hline
+\end{tabular}
+\section{Conclusion}               %% un autre titre
+\index{conclusion}                 %% inclure le mot conclusion dans l'index
+\index{LaTeX}                      %% inclure le mot LaTeX dans l'index
+En conclusion, \LaTeX\ est
+particulièrement bien adapté pour
+rédiger de longs documents.
+
+\input DemoLaTeX.ind               %% inclure ici l'index produit à partir de ce document
+\bibliography{DemoLaTeX}
 
 \end{document}
