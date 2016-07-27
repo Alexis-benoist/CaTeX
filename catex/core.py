@@ -139,9 +139,7 @@ class LaTeX:
         out = LaTeX()
         # Choose doc class
         out.doc_class = self.doc_class
-        # TODO: why do we take the preamble nopkg from other?
-        # TODO: This method creates a replication of the documentclass in the test.
-        out.preamble_nopkg = other.preamble_nopkg[1:]
+        out.preamble_nopkg = other.preamble_nopkg
 
         # Slicing removes begin/end doc
         merged_contents = self.contents[1:-1] + other.contents[1:-1]
