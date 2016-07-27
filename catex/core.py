@@ -73,19 +73,6 @@ def merge_packages(pkg1, pkg2):
     return newpackages
 
 
-def dispatch_preamble(preamble):
-    document_class, preamble_nopkg, packages = [], [], []
-    for line in preamble:
-        if '\\usepackage' in line:
-            packages.append(line)
-        elif '\\document' in line:
-            document_class.append(line)
-        else:
-            preamble_nopkg.append(line)
-    assert len(document_class) == 1
-    return document_class, preamble_nopkg, make_package_list(packages)
-
-
 class LaTeX:
     def __init__(self, lines=None):
         """
@@ -109,8 +96,24 @@ class LaTeX:
 
         preamble = lines[:first_line_content]
         self.contents = lines[first_line_content:]
-        self.doc_class, self.preamble_nopkg, self.packages =\
-            dispatch_preamble(preamble)
+        self._dispatch_preamble(preamble)
+
+    def _dispatch_preamble(self, preamble):
+        self.doc_class, self.preamble_nopkg, packages = [], [], []
+        self.author, self.title = [], []
+        for line in preamble:
+            if '\\usepackage' in line:
+                packages.append(line)
+            elif '\\document' in line:
+                self.doc_class.append(line)
+            elif '\\author' in line:
+                self.author.append(line)
+            elif '\\title' in line:
+                self.title.append(line)
+            else:
+                self.preamble_nopkg.append(line)
+        assert len(self.doc_class) == 1
+        self.packages = make_package_list(packages)
 
     @staticmethod
     def from_file(filename):
@@ -138,7 +141,9 @@ class LaTeX:
     def merge(self, other):
         out = LaTeX()
         # Choose doc class
-        out.doc_class = self.doc_class
+        out.doc_class = self.doc_class or other.doc_class
+        out.title = self.title or other.title
+        out.author = self.author or other.author
         out.preamble_nopkg = other.preamble_nopkg
 
         # Slicing removes begin/end doc
@@ -160,7 +165,8 @@ class LaTeX:
 
     @property
     def preamble(self):
-        return self.doc_class + self.preamble_nopkg + self.repr_pkg()
+        return self.doc_class + self.author + self.title \
+               + self.preamble_nopkg + self.repr_pkg()
 
     def __repr__(self):
         return '\n'.join(self.preamble + self.contents)
