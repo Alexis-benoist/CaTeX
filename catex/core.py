@@ -121,8 +121,8 @@ class LaTeX:
         out = LaTeX()
         # Choose doc class
         doc_class = self.preamble_nopkg[0]
-        # TODO Sha: why do we take the preamble nopkg from other?
-        # TODO Sha: This method creates a replication of the documentclass in the test.
+        # TODO: why do we take the preamble nopkg from other?
+        # TODO: This method creates a replication of the documentclass in the test.
         out.preamble_nopkg = [doc_class] + other.preamble_nopkg[1:]
 
         # Slicing removes begin/end doc

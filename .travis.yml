@@ -6,10 +6,10 @@ env:
     - TOXENV=py33-install
     - TOXENV=py34-test
     - TOXENV=py34-install
-    - TOXENV=py35-test
-    - TOXENV=py35-install
 before_install:
     - travis_retry pip install tox
-install: true
+install:
+    - sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+    - sudo apt-get install chktex
 script:
     - travis_retry tox

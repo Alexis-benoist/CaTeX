@@ -64,7 +64,8 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'click==6.6'
+        'click==6.6',
+        'latex==0.6.2'
     ],
     entry_points={
         'console_scripts': [
