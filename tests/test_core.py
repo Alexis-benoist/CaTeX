@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 
+def read_file(path):
+    with open(path, 'r') as f:
+        return ''.join(f.readlines())
+
+
 def test_import():
     from catex import LaTeX
 
@@ -18,7 +23,8 @@ def test_latex_simple():
 def test_merge():
     from catex.core import merge
     rv = merge("tests/data/latex1.tex", "tests/data/latex2.tex")
-    print rv
+    expected_result = read_file("tests/data/merge1_2.tex")
+    assert rv.__repr__() == expected_result
 
 
 def test_merge_packeges():
@@ -51,8 +57,7 @@ def test_merge_packeges():
 def test_repr():
     from catex.core import LaTeX
     l = LaTeX.from_file("tests/data/latex_sorted.tex")
-    with open("tests/data/latex_sorted.tex", 'r') as f:
-        text = f.readlines()
+    text = read_file("tests/data/latex_sorted.tex")
 
     assert l.__repr__() == ''.join(text)
 
