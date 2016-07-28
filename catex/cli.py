@@ -1,6 +1,12 @@
 import click
 
 
+def raw_string(s):
+    try:
+        return s.encode('string-escape')
+    except:
+        return s.encode('unicode-escape')
+
 @click.command()
 @click.option('-i', '--input', multiple=True, type=click.Path(readable=True),
               help='Paths of the .tex to merge')
@@ -19,7 +25,8 @@ def _cli(input, output):
     text = merge(*input).__repr__()
     if output[-4:] == '.pdf':
         from latex import build_pdf
-        pdf = build_pdf(text)
+        raw_text = raw_string(text)
+        pdf = build_pdf(raw_text)
         pdf.save_to(output)
     else:
         file_out = click.open_file(output)
