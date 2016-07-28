@@ -18,9 +18,8 @@ def _cli(input, output):
     from catex.core import merge
     text = merge(*input).__repr__()
     if output[-4:] == '.pdf':
-        from latex import build_pdf, escape
-        raw_text = escape(text)
-        pdf = build_pdf(raw_text)
+        from latex import build_pdf
+        pdf = build_pdf(text)
         pdf.save_to(output)
     else:
         file_out = click.open_file(output)
