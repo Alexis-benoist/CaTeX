@@ -16,6 +16,10 @@ To concatenate `first_doc.tex` and `second_doc.tex`, just run:
 
     $ catex -i first_doc.tex -i second_doc.tex -o output.tex
 
+If you want to directly compile it to PDF, simply:
+
+    $ catex -i first_doc.tex -i second_doc.tex -o output.pdf
+
 If no output file is selected then the output
 will be displayed in std_out.
 
