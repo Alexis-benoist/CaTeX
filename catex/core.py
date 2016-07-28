@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from click import open_file
 
+
 def uniq(lst):
     last = object()
     for item in lst:
@@ -165,8 +166,8 @@ class LaTeX:
 
     @property
     def preamble(self):
-        return self.doc_class + self.author + self.title \
-               + self.preamble_nopkg + self.repr_pkg()
+        return self.doc_class + self.repr_pkg() + self.author \
+               + self.title + self.preamble_nopkg
 
     def __repr__(self):
         return '\n'.join(self.preamble + self.contents)
