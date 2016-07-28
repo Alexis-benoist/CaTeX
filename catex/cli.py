@@ -1,12 +1,6 @@
 import click
 
 
-def raw_string(s):
-    try:
-        return s.encode('string-escape')
-    except:
-        return s.encode('unicode-escape')
-
 @click.command()
 @click.option('-i', '--input', multiple=True, type=click.Path(readable=True),
               help='Paths of the .tex to merge')
@@ -24,8 +18,8 @@ def _cli(input, output):
     from catex.core import merge
     text = merge(*input).__repr__()
     if output[-4:] == '.pdf':
-        from latex import build_pdf
-        raw_text = raw_string(text)
+        from latex import build_pdf, escape
+        raw_text = escape(text)
         pdf = build_pdf(raw_text)
         pdf.save_to(output)
     else:
