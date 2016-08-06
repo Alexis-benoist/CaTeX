@@ -63,14 +63,20 @@ def make_package_list(preamble):
 
 
 def merge_packages(pkg1, pkg2):
+    """
+
+    :param pkg1:
+    :param pkg2:
+    :return:
+    """
     newpackages = []
     pkgl = [pkg for pkg, opt in pkg1]
-    for pkg, opt in pkg2:
+    for pkg, opt2 in pkg2:
         if pkg in pkgl:
-            pkgi = pkgl.index(pkg)
-            newpackages.append([pkg, sort_and_deduplicate(pkg1[pkgi][1] + opt)])
+            opt1 = pkg1[pkgl.index(pkg)][1]
+            newpackages.append([pkg, sort_and_deduplicate(opt1 + opt2)])
         else:
-            newpackages.append([pkg, list(set(opt))])
+            newpackages.append([pkg, list(set(opt2))])
     return newpackages
 
 
@@ -145,7 +151,7 @@ class LaTeX:
         out.doc_class = self.doc_class or other.doc_class
         out.title = self.title or other.title
         out.author = self.author or other.author
-        out.preamble_nopkg = other.preamble_nopkg
+        out.preamble_nopkg = self.preamble_nopkg + other.preamble_nopkg
 
         # Slicing removes begin/end doc
         merged_contents = self.contents[1:-1] + other.contents[1:-1]
