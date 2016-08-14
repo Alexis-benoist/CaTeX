@@ -1,6 +1,6 @@
 # CaTeX
 
-`TLDR`: `CaTeX` `C`oncatenates L`aTeX` documents.
+`TLDR`: `CaTeX` `C`oncatenates L`aTeX` documents with attention for properly merging the preamble.
 
 ## Install
 
